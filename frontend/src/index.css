@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+.nav-link {
+  text-decoration: none !important;
+  color: #16a34a !important;
+}
+
+.nav-link-account {
+  text-decoration: none !important;
+  color: #16a34a !important;
+}
+
+.search-input {
+  border-radius: 9999px 0 0 9999px; /* left pill */
+}
+
+.search-button {
+  border-radius: 0 9999px 9999px 0; /* right pill */
+}
+
+.btn-link {
+  text-decoration: none !important;
+}
+
+body {
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
