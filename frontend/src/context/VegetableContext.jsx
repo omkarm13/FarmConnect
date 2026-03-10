@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
+import axios from "../config/axios";
 
 const VegetableContext = createContext();
 
