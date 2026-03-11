@@ -1,10 +1,8 @@
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
-const ExpressError = require("./utils/ExpressError.js");
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 
@@ -16,19 +14,14 @@ const reviewRoutes = require("./routes/review.js");
 const adminRoutes = require("./routes/admin.js");
 const deliveryRoutes = require("./routes/deliveryBoy.js");
 
-const ATLAS_URL = process.env.ATLAS_DB_URL;
+const app = express();
 
-mongoose.connect(ATLAS_URL)
+mongoose.connect(process.env.ATLAS_DB_URL)
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("MongoDB error:", err));
 
-const allowedOrigins = [
-    process.env.FRONTEND_URL,
-    "http://localhost:5173"
-].filter(Boolean);
-
 app.use(cors({
-    origin: allowedOrigins,
+    origin: [process.env.FRONTEND_URL, "http://localhost:5173"].filter(Boolean),
     credentials: true
 }));
 
@@ -36,7 +29,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-//Routes
 app.use("/api/user", userRoutes);
 app.use("/api/vegetables", vegetableRoutes);
 app.use("/api/cart", cartRoutes);
@@ -45,30 +37,17 @@ app.use("/api/vegetables/:id/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/delivery", deliveryRoutes);
 
-// Serve static files in production
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
-}
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-// SPA fallback
 app.get("*", (req, res, next) => {
-    if (req.path.startsWith("/api/")) {
-        return next(new ExpressError(404, "Not Found"));
-    }
-    
-    if (process.env.NODE_ENV === "production") {
-        res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-    } else {
-        res.json({ message: "Use Vite dev server in development" });
-    }
+    if (req.path.startsWith('/api/')) return next();
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
-    const { statusCode = 500, message = "Something went wrong!" } = err;
-    res.status(statusCode).json({
+    res.status(err.statusCode || 500).json({
         success: false,
-        message: message
+        message: err.message || "Something went wrong!"
     });
 });
 
