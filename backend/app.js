@@ -20,11 +20,6 @@ mongoose.connect(process.env.ATLAS_DB_URL)
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("MongoDB error:", err));
 
-app.use(cors({
-    origin: [process.env.FRONTEND_URL, "http://localhost:5173"].filter(Boolean),
-    credentials: true
-}));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
