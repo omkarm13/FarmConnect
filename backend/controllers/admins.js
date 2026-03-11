@@ -97,7 +97,14 @@ module.exports.assignOrdersAPI = TryCatch(async (req, res) => {
 });
 
 module.exports.logoutAdminAPI = TryCatch(async (req, res) => {
-    res.cookie("token", "", { maxAge: 0, httpOnly: true, sameSite: "strict" });
+    const isProduction = process.env.NODE_ENV === "production";
+    
+    res.cookie("token", "", { 
+        maxAge: 0, 
+        httpOnly: true, 
+        sameSite: isProduction ? "none" : "lax",
+        secure: isProduction
+    });
 
     return res.status(200).json({
         success: true,

@@ -5,10 +5,13 @@ const generateAdminToken = (res) => {
     expiresIn: "15d",
   });
 
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("token", token, {
     maxAge: 15 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
   });
 };
 
