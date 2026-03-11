@@ -22,8 +22,13 @@ mongoose.connect(ATLAS_URL)
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("MongoDB error:", err));
 
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    "http://localhost:5173"
+].filter(Boolean);
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true
 }));
 
@@ -43,11 +48,20 @@ app.use("/api/delivery", deliveryRoutes);
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
-    
-    app.get("*", (req, res) => {
-        res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-    });
 }
+
+// SPA fallback
+app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+        return next(new ExpressError(404, "Not Found"));
+    }
+    
+    if (process.env.NODE_ENV === "production") {
+        res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+    } else {
+        res.json({ message: "Use Vite dev server in development" });
+    }
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
