@@ -51,9 +51,25 @@ app.use("/api/vegetables/:id/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/delivery", deliveryRoutes);
 
-// 404 handler for undefined API routes
-app.all("*", (req, res, next) => {
-    next(new ExpressError(404, `Cannot ${req.method} ${req.path}`));
+// Serve static files
+const frontendDistPath = path.join(__dirname, "..", "frontend", "dist");
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(frontendDistPath));
+}
+
+// Handle SPA routing
+app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+        return next(new ExpressError(404, `Cannot ${req.method} ${req.path}`));
+    }
+    
+    if (process.env.NODE_ENV === "production") {
+        res.sendFile(path.join(frontendDistPath, "index.html"));
+    } else {
+        res.status(200).json({
+            message: "Development mode: Please access the frontend at the Vite dev server (usually http://localhost:5173)"
+        });
+    }
 });
 
 // Error handling middleware
