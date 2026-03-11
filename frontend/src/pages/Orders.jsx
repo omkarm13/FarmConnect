@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { OrderData } from '../context/OrderContext.jsx';
 import { Loading } from '../components/Loading.jsx';

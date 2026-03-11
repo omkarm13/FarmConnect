@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { VegetableData } from '../context/VegetableContext.jsx';
 
 const Reviews = ({ vegetable, user }) => {

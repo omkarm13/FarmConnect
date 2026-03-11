@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AdminData } from '../context/AdminContext.jsx';
 import { FaSeedling } from 'react-icons/fa';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VegetableData } from '../context/VegetableContext.jsx';
 import { FaSeedling } from 'react-icons/fa';

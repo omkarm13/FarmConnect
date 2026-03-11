@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserData } from '../context/UserContext.jsx';
 import { LoadingAnimation } from '../components/Loading.jsx';

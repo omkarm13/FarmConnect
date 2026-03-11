@@ -32,8 +32,15 @@ app.use("/api/vegetables/:id/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/delivery", deliveryRoutes);
 
+// Health check endpoint for Render
+app.get("/api/health", (req, res) => {
+    res.json({ status: "ok", message: "Server is running" });
+});
+
+// Serve static files from frontend build
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
+// Serve index.html for all non-API routes (SPA fallback)
 app.get("*", (req, res, next) => {
     if (req.path.startsWith('/api/')) return next();
     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));

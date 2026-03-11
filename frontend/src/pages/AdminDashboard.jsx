@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AdminData } from '../context/AdminContext.jsx';
 import { Loading } from '../components/Loading.jsx';

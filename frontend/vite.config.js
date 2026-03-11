@@ -16,7 +16,11 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      'import.meta.env.VITE_MAP_API': JSON.stringify(env.MAP_API),
+      'import.meta.env.VITE_MAP_API': JSON.stringify(env.VITE_MAP_API || ''),
+    },
+    build: {
+      outDir: 'dist',
+      emptyOutDir: true,
     },
   }
 })

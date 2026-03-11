@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSeedling, FaSearch, FaShoppingCart, FaBox, FaTruck } from 'react-icons/fa';
 import { CartData } from '../context/CartContext.jsx';

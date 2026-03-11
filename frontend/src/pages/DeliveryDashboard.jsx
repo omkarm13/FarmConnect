@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { DeliveryData } from '../context/DeliveryContext.jsx';
 import { Loading } from '../components/Loading.jsx';
 import { FaTruck, FaCheck, FaBox, FaMapMarkerAlt } from 'react-icons/fa';
